@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TBR QURAN - Listen. Reflect. Remember.</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            850: '#06382b',
+                            900: '#042f24',
+                            950: '#021f18',
+                        },
+                        gold: {
+                            300: '#f6e05e',
+                            400: '#ecc94b',
+                            500: '#d69e2e',
+                            600: '#b7791f',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        arabic: ['Amiri', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts for Arabic & English Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #059669;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #10b981;
+        }
+
+        /* Subtle Islamic Geometric Pattern Overlay */
+        .bg-islamic-pattern {
+            background-color: #021f18;
+            background-image: radial-gradient(rgba(214, 158, 46, 0.08) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(4, 47, 36, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(214, 158, 46, 0.15);
+        }
+
+        .glass-player {
+            background: rgba(2, 31, 24, 0.94);
+            backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(214, 158, 46, 0.2);
+        }
+
+        /* Golden Glow utility */
+        .gold-glow {
+            box-shadow: 0 0 15px rgba(214, 158, 46, 0.3);
+        }
+        
+        .gold-glow-lg {
+            box-shadow: 0 0 30px rgba(214, 158, 46, 0.4);
+        }
+
+        /* Custom Audio Slider */
+        input[type=range] {
+            accent-color: #d69e2e;
+        }
+    </style>
+</head>
+<body class="bg-islamic-pattern text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-gold-500 selection:text-emerald-950 pb-28 md:pb-24">
+
+    <!-- TOP HEADER / NAV BAR -->
+    <header class="sticky top-0 z-30 glass-panel px-4 py-3 border-b border-gold-500/10">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="navTo('home')">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-800 to-gold-500 flex items-center justify-center shadow-lg border border-gold-400/30">
+                    <i class="fa-solid me-0.5 fa-moon text-amber-200 text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wider text-amber-100 font-serif flex items-center gap-2">
+                        TBR QURAN
+                        <span class="text-[10px] px-2 py-0.5 rounded-full bg-gold-500/20 text-gold-400 border border-gold-500/30 font-sans uppercase">Pro + Nature Ambience</span>
+                    </h1>
+                    <p class="text-xs text-emerald-300/80 font-light hidden sm:block">Listen. Reflect. Remember.</p>
+                </div>
+            </div>
+
+            <!-- Global Navigation Bar (Desktop) -->
+            <nav class="hidden lg:flex items-center gap-1 bg-emerald-950/80 p-1.5 rounded-full border border-emerald-800/80">
+                <button onclick="navTo('home')" class="nav-btn-desk px-4 py-1.5 rounded-full text-xs font-semibold text-emerald-300 hover:text-gold-400 transition" id="dnav-home">Home</button>
+                <button onclick="navTo('reciters')" class="nav-btn-desk px-4 py-1.5 rounded-full text-xs font-semibold text-emerald-300 hover:text-gold-400 transition" id="dnav-reciters">Qaris (30)</button>
+                <button onclick="navTo('library')" class="nav-btn-desk px-4 py-1.5 rounded-full text-xs font-semibold text-emerald-300 hover:text-gold-400 transition" id="dnav-library">Library (114)</button>
+                <button onclick="navTo('ambient')" class="nav-btn-desk px-4 py-1.5 rounded-full text-xs font-semibold text-gold-400 hover:text-gold-300 transition flex items-center gap-1.5 bg-gold-500/10 border border-gold-500/20" id="dnav-ambient">
+                    <i class="fa-solid fa-cloud-rain text-gold-400"></i> Ambient Sounds
+                </button>
+                <button onclick="navTo('favourites')" class="nav-btn-desk px-4 py-1.5 rounded-full text-xs font-semibold text-emerald-300 hover:text-gold-400 transition" id="dnav-favourites">Favorites</button>
+                <button onclick="navTo('playlists')" class="nav-btn-desk px-4 py-1.5 rounded-full text-xs font-semibold text-emerald-300 hover:text-gold-400 transition" id="dnav-playlists">Playlists</button>
+            </nav>
+
+            <!-- Global Search Bar -->
+            <div class="flex-1 max-w-xs relative hidden sm:block">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-emerald-400/60 text-sm"></i>
+                <input type="text" id="global-search" oninput="handleGlobalSearch(this.value)" 
+                    placeholder="Search Surah or Reciter..." 
+                    class="w-full bg-emerald-950/80 border border-emerald-700/50 rounded-full pl-10 pr-4 py-1.5 text-xs text-emerald-100 placeholder-emerald-400/50 focus:outline-none focus:border-gold-500 transition-all">
+                
+                <!-- Search Quick Results Dropdown -->
+                <div id="search-dropdown" class="hidden absolute left-0 right-0 top-full mt-2 bg-emerald-900 border border-gold-500/20 rounded-xl shadow-2xl max-h-80 overflow-y-auto z-50 divide-y divide-emerald-800"></div>
+            </div>
+
+            <!-- Header Quick Controls -->
+            <div class="flex items-center gap-2">
+                <button onclick="toggleDarkMode()" title="Toggle Theme" class="p-2 rounded-full hover:bg-emerald-800/50 text-emerald-300 hover:text-gold-400 transition">
+                    <i class="fa-solid fa-moon text-lg" id="theme-icon"></i>
+                </button>
+                <button onclick="navTo('settings')" title="Settings" class="p-2 rounded-full hover:bg-emerald-800/50 text-emerald-300 hover:text-gold-400 transition">
+                    <i class="fa-solid fa-sliders text-lg"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Search Input (Visible only on mobile) -->
+        <div class="mt-2.5 sm:hidden relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-emerald-400/60 text-xs"></i>
+            <input type="text" oninput="handleGlobalSearch(this.value)" 
+                placeholder="Search Surah or Reciter..." 
+                class="w-full bg-emerald-950/80 border border-emerald-700/50 rounded-full pl-9 pr-4 py-1.5 text-xs text-emerald-100 placeholder-emerald-400/50 focus:outline-none focus:border-gold-500">
+        </div>
+    </header>
+
+    <!-- MAIN APP VIEW PORT (CONTAINER) -->
+    <main class="max-w-7xl mx-auto w-full px-4 py-6 flex-1">
+
+        <!-- SECTION A: HOME PAGE -->
+        <section id="sec-home" class="view-section space-y-8">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-900 via-emerald-850 to-emerald-950 p-6 md:p-8 border border-gold-500/20 shadow-xl">
+                <div class="absolute right-0 top-0 bottom-0 opacity-10 pointer-events-none flex items-center justify-center pr-6">
+                    <i class="fa-solid fa-kaaba text-[180px] text-gold-400"></i>
+                </div>
+                <div class="relative z-10 max-w-2xl space-y-3">
+                    <span class="px-3 py-1 rounded-full bg-gold-500/10 text-gold-400 text-xs font-semibold tracking-wider uppercase border border-gold-500/30">
+                        TBR QURAN • Simultaneous Nature Ambience Enabled
+                    </span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-amber-100 font-serif leading-tight">
+                        Immerse Your Heart in Divine Recitations
+                    </h2>
+                    <p class="text-sm md:text-base text-emerald-200/80">
+                        Stream authentic high-quality recitations from 30 Qaris alongside soothing background sounds of rain, ocean waves, wind, and birdsong.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="playSurah(1)" class="px-6 py-2.5 rounded-full bg-gold-500 hover:bg-gold-400 text-emerald-950 font-semibold text-sm transition-all shadow-md flex items-center gap-2 gold-glow">
+                            <i class="fa-solid fa-play"></i> Play Surah Al-Fatihah
+                        </button>
+                        <button onclick="navTo('ambient')" class="px-6 py-2.5 rounded-full bg-emerald-800/60 hover:bg-emerald-800 text-emerald-100 text-sm font-medium border border-gold-500/30 transition flex items-center gap-2">
+                            <i class="fa-solid fa-cloud-rain text-gold-400"></i> Mix Nature Sounds
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Qari & Ambient Mix Bar -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex items-center justify-between bg-emerald-900/40 border border-emerald-800/60 rounded-xl p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gold-500/20 flex items-center justify-center text-gold-400 border border-gold-500/40">
+                            <i class="fa-solid fa-microphone-lines"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-emerald-400 uppercase tracking-wider block">Active Reciter</span>
+                            <h4 id="home-active-qari-name" class="font-semibold text-amber-100 text-sm md:text-base">Mishary Rashid Alafasy</h4>
+                        </div>
+                    </div>
+                    <button onclick="navTo('reciters')" class="text-xs text-gold-400 hover:text-gold-300 font-medium underline underline-offset-4">
+                        Change Qari
+                    </button>
+                </div>
+
+                <div class="flex items-center justify-between bg-emerald-900/40 border border-emerald-800/60 rounded-xl p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-emerald-800 flex items-center justify-center text-gold-400 border border-emerald-600/40">
+                            <i class="fa-solid fa-wind" id="home-ambient-icon"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-emerald-400 uppercase tracking-wider block">Ambient Sound Overlay</span>
+                            <h4 id="home-active-ambient-name" class="font-semibold text-amber-100 text-sm md:text-base">Disabled</h4>
+                        </div>
+                    </div>
+                    <button onclick="navTo('ambient')" class="text-xs text-gold-400 hover:text-gold-300 font-medium underline underline-offset-4">
+                        Configure Ambient
+                    </button>
+                </div>
+            </div>
+
+            <!-- Featured Qaris Horizontal Grid -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-amber-100 font-serif flex items-center gap-2">
+                        <i class="fa-solid fa-star text-gold-400 text-base"></i> Featured Reciters
+                    </h3>
+                    <button onclick="navTo('reciters')" class="text-xs text-emerald-300 hover:text-gold-400 font-medium">Browse All 30 <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i></button>
+                </div>
+                <div id="home-qaris-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+                    <!-- Dynamic Qari Cards populated via JS -->
+                </div>
+            </div>
+
+            <!-- Quick Access Surahs -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-amber-100 font-serif flex items-center gap-2">
+                        <i class="fa-solid fa-book-open text-gold-400 text-base"></i> Frequently Listened Surahs
+                    </h3>
+                    <button onclick="navTo('library')" class="text-xs text-emerald-300 hover:text-gold-400 font-medium">Full 114 Library <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i></button>
+                </div>
+                <div id="home-popular-surahs" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                    <!-- Popular surahs populated via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION H: AMBIENT SOUNDS FEATURE PAGE -->
+        <section id="sec-ambient" class="view-section space-y-6 hidden">
+            <!-- Header Banner -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-850 p-6 md:p-8 border border-gold-500/20 shadow-xl">
+                <div class="relative z-10 max-w-2xl space-y-2">
+                    <span class="px-3 py-1 rounded-full bg-gold-500/10 text-gold-400 text-xs font-semibold tracking-wider uppercase border border-gold-500/30">
+                        AMBIENT SOUNDS
+                    </span>
+                    <h2 class="text-2xl md:text-3xl font-bold text-amber-100 font-serif">
+                        Create Your Peaceful Listening Atmosphere
+                    </h2>
+                    <p class="text-xs md:text-sm text-emerald-200/80">
+                        Mix tranquil natural soundscapes simultaneously with your favorite Quran recitation. Independent controls ensure the Holy Quran remains primary.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Ambient Master Control Panel -->
+            <div class="glass-panel p-5 rounded-2xl border border-gold-500/20 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+                <div class="flex items-center gap-4 w-full md:w-auto">
+                    <button onclick="toggleAmbientPlay()" id="btn-ambient-master-toggle" class="w-12 h-12 rounded-full bg-gold-500 hover:bg-gold-400 text-emerald-950 flex items-center justify-center text-xl shadow gold-glow shrink-0">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <div>
+                        <span class="text-xs text-emerald-400 uppercase tracking-wider block font-semibold">Active Ambient Track</span>
+                        <h4 id="ambient-active-title" class="font-bold text-amber-100 text-sm md:text-base">None Selected</h4>
+                    </div>
+                </div>
+
+                <!-- Volume and Instant Off Controls -->
+                <div class="flex items-center gap-6 w-full md:w-auto justify-between">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-volume-low text-emerald-400 text-sm"></i>
+                        <input type="range" id="ambient-volume-slider" min="0" max="0.5" step="0.01" value="0.15" oninput="changeAmbientVolume(this.value)" class="w-32 md:w-40 h-1.5 bg-emerald-950 rounded appearance-none cursor-pointer">
+                        <span id="ambient-vol-percentage" class="text-xs font-mono text-gold-400 w-8">15%</span>
+                    </div>
+                    <button onclick="stopAmbientSound()" class="px-3 py-1.5 rounded-xl bg-rose-950/60 hover:bg-rose-900 border border-rose-700/50 text-rose-200 text-xs font-semibold transition">
+                        <i class="fa-solid fa-power-off mr-1"></i> Mute Ambience
+                    </button>
+                </div>
+            </div>
+
+            <!-- Atmosphere Presets -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-bold text-amber-100 font-serif flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-gold-400"></i> Predefined Atmosphere Presets
+                </h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                    <button onclick="applyPreset('rain_gentle')" class="p-3 bg-emerald-900/40 hover:bg-emerald-850 border border-emerald-700/50 rounded-xl text-left transition group">
+                        <i class="fa-solid fa-cloud-rain text-gold-400 text-lg mb-1 group-hover:scale-110 transition-transform"></i>
+                        <h4 class="font-bold text-amber-100 text-xs">Peaceful Rain</h4>
+                        <p class="text-[10px] text-emerald-300/70">Gentle Drizzle</p>
+                    </button>
+                    <button onclick="applyPreset('bird_morning')" class="p-3 bg-emerald-900/40 hover:bg-emerald-850 border border-emerald-700/50 rounded-xl text-left transition group">
+                        <i class="fa-solid fa-dove text-gold-400 text-lg mb-1 group-hover:scale-110 transition-transform"></i>
+                        <h4 class="font-bold text-amber-100 text-xs">Morning Forest</h4>
+                        <p class="text-[10px] text-emerald-300/70">Birds & Winds</p>
+                    </button>
+                    <button onclick="applyPreset('water_ocean')" class="p-3 bg-emerald-900/40 hover:bg-emerald-850 border border-emerald-700/50 rounded-xl text-left transition group">
+                        <i class="fa-solid fa-water text-gold-400 text-lg mb-1 group-hover:scale-110 transition-transform"></i>
+                        <h4 class="font-bold text-amber-100 text-xs">Ocean Peace</h4>
+                        <p class="text-[10px] text-emerald-300/70">Gentle Waves</p>
+                    </button>
+                    <button onclick="applyPreset('forest_ambience')" class="p-3 bg-emerald-900/40 hover:bg-emerald-850 border border-emerald-700/50 rounded-xl text-left transition group">
+                        <i class="fa-solid fa-tree text-gold-400 text-lg mb-1 group-hover:scale-110 transition-transform"></i>
+                        <h4 class="font-bold text-amber-100 text-xs">Forest Atmosphere</h4>
+                        <p class="text-[10px] text-emerald-300/70">Rustling Leaves</p>
+                    </button>
+                    <button onclick="applyPreset('wild_crickets')" class="p-3 bg-emerald-900/40 hover:bg-emerald-850 border border-emerald-700/50 rounded-xl text-left transition group">
+                        <i class="fa-solid fa-moon text-gold-400 text-lg mb-1 group-hover:scale-110 transition-transform"></i>
+                        <h4 class="font-bold text-amber-100 text-xs">Night Nature</h4>
+                        <p class="text-[10px] text-emerald-300/70">Crickets & Breeze</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Categories Filter & Search -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-2">
+                <h3 class="text-lg font-bold text-amber-100 font-serif">Explore All Nature Sound Library</h3>
+                <div class="flex flex-wrap items-center gap-2">
+                    <input type="text" id="ambient-search-input" oninput="renderAmbientLibrary()" placeholder="Search sound..." class="bg-emerald-950 border border-emerald-700 text-emerald-200 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-gold-500">
+                    <select id="ambient-cat-filter" onchange="renderAmbientLibrary()" class="bg-emerald-950 border border-emerald-700 text-emerald-200 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-gold-500">
+                        <option value="all">All Categories</option>
+                        <option value="Rain">Rain & Water</option>
+                        <option value="Thunderstorm">Thunderstorm</option>
+                        <option value="Wind">Wind & Breeze</option>
+                        <option value="Birds">Birds & Wildlife</option>
+                        <option value="Forest">Forest & Nature</option>
+                        <option value="Relaxing">Relaxing Ambience</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Sounds Grid -->
+            <div id="ambient-sounds-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Dynamically Populated Cards -->
+            </div>
+        </section>
+
+        <!-- SECTION B: QARIS / RECITERS (COMPREHENSIVE LIBRARY) -->
+        <section id="sec-reciters" class="view-section space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-amber-100 font-serif">Global Reciter Discovery Hub</h2>
+                    <p class="text-xs md:text-sm text-emerald-300/80">Select from 30 verified international Qaris to stream their authentic recitations.</p>
+                </div>
+                <!-- Filter Controls -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <input type="text" id="qari-search-input" oninput="renderQariLibrary()" placeholder="Search Qari name..." class="bg-emerald-950 border border-emerald-700 text-emerald-200 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-gold-500">
+                    <select id="qari-category-filter" onchange="renderQariLibrary()" class="bg-emerald-950 border border-emerald-700 text-emerald-200 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-gold-500">
+                        <option value="all">All Categories</option>
+                        <option value="Popular">Popular</option>
+                        <option value="Saudi Arabia">Saudi Reciters</option>
+                        <option value="Egypt">Egyptian Reciters</option>
+                        <option value="Contemporary">Contemporary</option>
+                        <option value="Classic">Classic Legends</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Reciters Grid View -->
+            <div id="qaris-full-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Detailed 30 Qari list populated via JS -->
+            </div>
+        </section>
+
+        <!-- SECTION C: SURAH LIBRARY (All 114) -->
+        <section id="sec-library" class="view-section space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-amber-100 font-serif">Complete Quran Library (114 Surahs)</h2>
+                    <p class="text-xs md:text-sm text-emerald-300/80">Stream all chapters using your active selected reciter.</p>
+                </div>
+                <!-- Controls Filter -->
+                <div class="flex items-center gap-3">
+                    <select id="revelation-filter" onchange="filterSurahList()" class="bg-emerald-950 border border-emerald-700 text-emerald-200 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-gold-500">
+                        <option value="all">All Revelation Types</option>
+                        <option value="Meccan">Meccan (Makki)</option>
+                        <option value="Medinan">Medinan (Madani)</option>
+                    </select>
+                    <select id="sort-order" onchange="filterSurahList()" class="bg-emerald-950 border border-emerald-700 text-emerald-200 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-gold-500">
+                        <option value="asc">Surah Number (1-114)</option>
+                        <option value="desc">Surah Number (114-1)</option>
+                        <option value="name">Alphabetical</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Surahs Table / Grid -->
+            <div class="bg-emerald-950/60 border border-emerald-800/60 rounded-2xl overflow-hidden shadow-xl">
+                <div id="library-surahs-list" class="divide-y divide-emerald-800/40">
+                    <!-- 114 Surahs populated dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION D: NOW PLAYING FULL-SCREEN / EXPANDED VIEW -->
+        <section id="sec-nowplaying" class="view-section space-y-6 hidden max-w-2xl mx-auto">
+            <div class="glass-panel p-6 md:p-8 rounded-3xl border border-gold-500/20 text-center space-y-6 shadow-2xl">
+                
+                <!-- Large Decorative Visualizer Box -->
+                <div class="relative mx-auto w-48 h-48 md:w-64 md:h-64 rounded-2xl bg-gradient-to-br from-emerald-800 via-emerald-900 to-emerald-950 border-2 border-gold-500/30 flex flex-col items-center justify-center p-4 gold-glow-lg overflow-hidden group">
+                    <img id="np-qari-img" src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=400&q=80" class="absolute inset-0 w-full h-full object-cover opacity-20 transition-transform duration-700 group-hover:scale-105">
+                    <i class="fa-solid fa-book-quran text-7xl md:text-8xl text-gold-400/80 mb-2 relative z-10"></i>
+                    <span id="np-revelation-badge" class="relative z-10 px-3 py-1 rounded-full bg-emerald-950/80 text-emerald-300 text-xs border border-emerald-700/50">Meccan • 7 Verses</span>
+                </div>
+
+                <!-- Surah Titles -->
+                <div class="space-y-1">
+                    <h2 id="np-arabic-name" class="text-4xl md:text-5xl font-bold font-arabic text-gold-400 leading-relaxed">الفاتحة</h2>
+                    <h3 id="np-english-name" class="text-xl font-semibold text-amber-100">Al-Fatihah</h3>
+                    <p id="np-english-meaning" class="text-xs text-emerald-300/80 italic">"The Opening"</p>
+                </div>
+
+                <!-- Reciter & Ambient Info Banner -->
+                <div class="flex flex-wrap items-center justify-center gap-2">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-900/80 border border-emerald-700/60 text-emerald-200 text-xs">
+                        <i class="fa-solid fa-microphone text-gold-400"></i>
+                        <span id="np-qari-name">Sheikh Mishary Rashid Alafasy</span>
+                    </div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-900/80 border border-gold-500/30 text-gold-400 text-xs">
+                        <i class="fa-solid fa-wind"></i>
+                        <span id="np-ambient-name">Ambience: Off</span>
+                    </div>
+                </div>
+
+                <!-- Audio Waveform / Progress Slider -->
+                <div class="space-y-2 pt-2">
+                    <input type="range" id="np-progress" value="0" min="0" max="100" step="0.1" onchange="seekAudio(this.value)" class="w-full h-2 bg-emerald-900 rounded-lg appearance-none cursor-pointer">
+                    <div class="flex justify-between text-xs text-emerald-400 font-mono">
+                        <span id="np-current-time">00:00</span>
+                        <span id="np-total-time">00:00</span>
+                    </div>
+                </div>
+
+                <!-- Playback Controls -->
+                <div class="flex items-center justify-center gap-6 pt-2">
+                    <button onclick="toggleShuffle()" id="np-btn-shuffle" title="Shuffle" class="text-emerald-400 hover:text-gold-400 transition text-lg">
+                        <i class="fa-solid fa-shuffle"></i>
+                    </button>
+                    <button onclick="playPrevSurah()" title="Previous Surah" class="text-amber-100 hover:text-gold-400 transition text-2xl">
+                        <i class="fa-solid fa-backward-step"></i>
+                    </button>
+                    <button onclick="togglePlayPause()" id="np-btn-play" title="Play/Pause" class="w-16 h-16 rounded-full bg-gold-500 hover:bg-gold-400 text-emerald-950 flex items-center justify-center text-2xl transition shadow-lg gold-glow">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <button onclick="playNextSurah()" title="Next Surah" class="text-amber-100 hover:text-gold-400 transition text-2xl">
+                        <i class="fa-solid fa-forward-step"></i>
+                    </button>
+                    <button onclick="toggleRepeat()" id="np-btn-repeat" title="Repeat Mode" class="text-emerald-400 hover:text-gold-400 transition text-lg">
+                        <i class="fa-solid fa-repeat"></i>
+                    </button>
+                </div>
+
+                <!-- Secondary Actions -->
+                <div class="flex items-center justify-center gap-4 pt-4 border-t border-emerald-800/40 text-xs">
+                    <button onclick="toggleCurrentFavourite()" id="np-btn-fav" class="flex items-center gap-1.5 text-emerald-300 hover:text-rose-400 transition">
+                        <i class="fa-regular fa-heart text-base"></i> Favorite
+                    </button>
+                    <button onclick="openAddToPlaylistModal()" class="flex items-center gap-1.5 text-emerald-300 hover:text-gold-400 transition">
+                        <i class="fa-solid fa-plus text-base"></i> Add to Playlist
+                    </button>
+                    <button onclick="openSleepTimerModal()" class="flex items-center gap-1.5 text-emerald-300 hover:text-gold-400 transition">
+                        <i class="fa-solid fa-bed text-base"></i> Sleep Timer
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION E: FAVOURITES -->
+        <section id="sec-favourites" class="view-section space-y-6 hidden">
+            <div>
+                <h2 class="text-2xl font-bold text-amber-100 font-serif">Your Favorite Surahs</h2>
+                <p class="text-xs md:text-sm text-emerald-300/80">Quickly access recitations you hold close to your heart.</p>
+            </div>
+            <div id="favourites-list" class="space-y-3">
+                <!-- Dynamically filled with favorites -->
+            </div>
+        </section>
+
+        <!-- SECTION F: PLAYLISTS -->
+        <section id="sec-playlists" class="view-section space-y-6 hidden">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-amber-100 font-serif">Custom Playlists</h2>
+                    <p class="text-xs md:text-sm text-emerald-300/80">Organize recitations for morning routines, sleep, or study.</p>
+                </div>
+                <button onclick="createPlaylistPrompt()" class="px-4 py-2 rounded-xl bg-gold-500 hover:bg-gold-400 text-emerald-950 text-xs font-bold transition flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i> New Playlist
+                </button>
+            </div>
+            <div id="playlists-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Dynamically filled playlists -->
+            </div>
+        </section>
+
+        <!-- SECTION G: SETTINGS -->
+        <section id="sec-settings" class="view-section space-y-6 hidden max-w-2xl mx-auto">
+            <div>
+                <h2 class="text-2xl font-bold text-amber-100 font-serif">Preferences & Audio Settings</h2>
+                <p class="text-xs md:text-sm text-emerald-300/80">Customize reciter defaults, audio quality, and playback behaviors.</p>
+            </div>
+
+            <div class="glass-panel rounded-2xl p-6 space-y-6">
+                <!-- Default Reciter Option -->
+                <div class="flex items-center justify-between gap-4 pb-4 border-b border-emerald-800/60">
+                    <div>
+                        <h4 class="font-semibold text-amber-100 text-sm">Default Qari</h4>
+                        <p class="text-xs text-emerald-300/70">Select reciter loaded by default</p>
+                    </div>
+                    <select id="settings-qari-select" onchange="changeDefaultQari(this.value)" class="bg-emerald-950 border border-emerald-700 text-emerald-200 text-xs rounded-xl px-3 py-2 max-w-[180px]">
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+
+                <!-- Playback Speed -->
+                <div class="flex items-center justify-between gap-4 pb-4 border-b border-emerald-800/60">
+                    <div>
+                        <h4 class="font-semibold text-amber-100 text-sm">Playback Speed</h4>
+                        <p class="text-xs text-emerald-300/70">Adjust recitation tempo</p>
+                    </div>
+                    <select id="playback-speed-select" onchange="changePlaybackSpeed(this.value)" class="bg-emerald-950 border border-emerald-700 text-emerald-200 text-xs rounded-xl px-3 py-2">
+                        <option value="0.75">0.75x (Slower)</option>
+                        <option value="1.0" selected>1.0x (Normal)</option>
+                        <option value="1.25">1.25x (Faster)</option>
+                        <option value="1.5">1.5x</option>
+                    </select>
+                </div>
+
+                <!-- Auto-Play Next -->
+                <div class="flex items-center justify-between gap-4 pb-4 border-b border-emerald-800/60">
+                    <div>
+                        <h4 class="font-semibold text-amber-100 text-sm">Auto-play Continuous Surahs</h4>
+                        <p class="text-xs text-emerald-300/70">Automatically proceed to the next Surah when finished</p>
+                    </div>
+                    <input type="checkbox" id="setting-autoplay" checked class="w-4 h-4 accent-gold-500 rounded cursor-pointer">
+                </div>
+
+                <!-- Background Playback Info -->
+                <div class="p-4 rounded-xl bg-emerald-900/40 border border-emerald-700/40 text-xs text-emerald-200 space-y-2">
+                    <div class="flex items-center gap-2 font-semibold text-gold-400">
+                        <i class="fa-solid fa-circle-info"></i> Background Playback & Dual Audio
+                    </div>
+                    <p>TBR QURAN uses dual HTML5 Audio streams. On mobile browsers (Android Chrome, Safari), lock-screen controls directly map to Quran recitations while ambient nature tracks gently loop in parallel.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PERSISTENT MINI PLAYER BAR (AT BOTTOM) -->
+    <div id="mini-player" class="fixed bottom-14 md:bottom-0 left-0 right-0 z-40 glass-player p-3 transition-all">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+            
+            <!-- Left Info: Surah & Reciter -->
+            <div class="flex items-center gap-3 cursor-pointer min-w-0" onclick="navTo('nowplaying')">
+                <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-emerald-800 border border-gold-500/30 flex items-center justify-center shrink-0 overflow-hidden">
+                    <img id="mini-qari-img" src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover">
+                </div>
+                <div class="min-w-0">
+                    <div class="flex items-center gap-2">
+                        <h4 id="mini-surah-title" class="font-bold text-amber-100 text-xs md:text-sm truncate">Al-Fatihah</h4>
+                        <span id="mini-surah-num" class="text-[10px] px-1.5 py-0.2 rounded bg-gold-500/20 text-gold-300 border border-gold-500/30">#1</span>
+                    </div>
+                    <p id="mini-qari-name" class="text-[11px] text-emerald-300/80 truncate">Sheikh Mishary Rashid Alafasy</p>
+                </div>
+            </div>
+
+            <!-- Middle Audio Progress & Controls -->
+            <div class="flex-1 max-w-xl hidden md:flex flex-col items-center gap-1">
+                <div class="flex items-center gap-4">
+                    <button onclick="playPrevSurah()" class="text-emerald-300 hover:text-gold-400 text-sm"><i class="fa-solid fa-backward-step"></i></button>
+                    <button onclick="togglePlayPause()" id="mini-btn-play" class="w-9 h-9 rounded-full bg-gold-500 hover:bg-gold-400 text-emerald-950 flex items-center justify-center text-sm shadow gold-glow">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <button onclick="playNextSurah()" class="text-emerald-300 hover:text-gold-400 text-sm"><i class="fa-solid fa-forward-step"></i></button>
+                </div>
+                <div class="w-full flex items-center gap-2">
+                    <span id="mini-curr-time" class="text-[10px] text-emerald-400 font-mono">00:00</span>
+                    <input type="range" id="mini-progress" value="0" min="0" max="100" step="0.1" onchange="seekAudio(this.value)" class="w-full h-1 bg-emerald-900 rounded appearance-none cursor-pointer">
+                    <span id="mini-total-time" class="text-[10px] text-emerald-400 font-mono">00:00</span>
+                </div>
+            </div>
+
+            <!-- Right Controls: Play/Pause (Mobile), Volume, Sleep Timer -->
+            <div class="flex items-center gap-3">
+                <button onclick="togglePlayPause()" id="mini-btn-play-mobile" class="md:hidden w-10 h-10 rounded-full bg-gold-500 text-emerald-950 flex items-center justify-center text-base">
+                    <i class="fa-solid fa-play"></i>
+                </button>
+
+                <!-- Ambient Quick Mute / Status -->
+                <button onclick="navTo('ambient')" title="Ambient Sound Controller" class="p-2 text-gold-400 hover:text-gold-300 relative">
+                    <i class="fa-solid fa-cloud-rain"></i>
+                    <span id="ambient-active-dot" class="hidden absolute top-1 right-1 w-2 h-2 rounded-full bg-gold-400 animate-pulse"></span>
+                </button>
+
+                <!-- Volume Slider -->
+                <div class="hidden lg:flex items-center gap-2">
+                    <i class="fa-solid fa-volume-low text-xs text-emerald-400"></i>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1" oninput="changeVolume(this.value)" class="w-20 h-1 bg-emerald-900 rounded appearance-none cursor-pointer">
+                </div>
+
+                <!-- Sleep Timer Active Indicator -->
+                <button onclick="openSleepTimerModal()" title="Sleep Timer" class="relative p-2 text-emerald-300 hover:text-gold-400">
+                    <i class="fa-solid fa-moon"></i>
+                    <span id="sleep-badge" class="hidden absolute top-1 right-1 w-2 h-2 rounded-full bg-gold-400"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MOBILE BOTTOM NAVIGATION MENU -->
+    <nav class="fixed bottom-0 left-0 right-0 z-30 bg-emerald-950 border-t border-emerald-800/80 md:hidden flex justify-around py-2">
+        <button onclick="navTo('home')" class="nav-btn text-emerald-400 flex flex-col items-center gap-0.5 text-[10px]" id="nav-home">
+            <i class="fa-solid fa-house text-base"></i> Home
+        </button>
+        <button onclick="navTo('reciters')" class="nav-btn text-emerald-400 flex flex-col items-center gap-0.5 text-[10px]" id="nav-reciters">
+            <i class="fa-solid fa-users text-base"></i> Qaris
+        </button>
+        <button onclick="navTo('library')" class="nav-btn text-emerald-400 flex flex-col items-center gap-0.5 text-[10px]" id="nav-library">
+            <i class="fa-solid fa-book-open text-base"></i> Library
+        </button>
+        <button onclick="navTo('ambient')" class="nav-btn text-gold-400 flex flex-col items-center gap-0.5 text-[10px]" id="nav-ambient">
+            <i class="fa-solid fa-cloud-rain text-base"></i> Ambient
+        </button>
+        <button onclick="navTo('favourites')" class="nav-btn text-emerald-400 flex flex-col items-center gap-0.5 text-[10px]" id="nav-favourites">
+            <i class="fa-solid fa-heart text-base"></i> Favorites
+        </button>
+    </nav>
+
+    <!-- FOOTER WITH BRANDING & ADVERTISEMENT -->
+    <footer class="mt-12 bg-emerald-950/90 border-t border-gold-500/20 py-8 px-4 text-center space-y-4">
+        <div class="max-w-4xl mx-auto space-y-3">
+            <h3 class="text-lg font-bold text-amber-100 font-serif">TBR QURAN</h3>
+            <p class="text-xs text-emerald-300/70 max-w-lg mx-auto">
+                Providing high-definition authentic Quran recitations paired with tranquil natural ambience. Built for peace, reflection, and daily remembrance.
+            </p>
+            
+            <!-- Company & Contact Advertisement Box -->
+            <div class="p-4 rounded-2xl bg-emerald-900/40 border border-gold-500/30 max-w-md mx-auto space-y-2">
+                <p class="text-xs text-gold-400 font-semibold uppercase tracking-wider">Custom Web & Mobile Engineering</p>
+                <p class="text-xs text-slate-200">
+                    Developed by <span class="font-bold text-gold-300">Rayan Shaji</span> at <span class="font-bold text-amber-100">TBR TECHNOLOGIES</span>.
+                </p>
+                <p class="text-xs text-emerald-300">
+                    Looking for custom web platforms, audio streaming, or mobile apps?
+                </p>
+                <a href="mailto:techbyrayan2011@gmail.com" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-500 hover:bg-gold-400 text-emerald-950 font-bold text-xs transition shadow mt-1">
+                    <i class="fa-solid fa-envelope"></i> Contact: techbyrayan2011@gmail.com
+                </a>
+            </div>
+
+            <p class="text-[11px] text-emerald-400/60 pt-2">
+                &copy; 2026 TBR TECHNOLOGIES. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- SLEEP TIMER MODAL -->
+    <div id="modal-sleep-timer" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-emerald-900 border border-gold-500/30 rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center">
+                <h3 class="font-bold text-amber-100 font-serif flex items-center gap-2">
+                    <i class="fa-solid fa-bed text-gold-400"></i> Sleep Timer
+                </h3>
+                <button onclick="closeSleepTimerModal()" class="text-emerald-400 hover:text-amber-100"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-xs text-emerald-300">Audio will automatically pause after the chosen interval.</p>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="setSleepTimer(15)" class="p-3 bg-emerald-950 hover:bg-emerald-800 rounded-xl border border-emerald-700 text-xs font-semibold text-emerald-100 transition">15 Minutes</button>
+                <button onclick="setSleepTimer(30)" class="p-3 bg-emerald-950 hover:bg-emerald-800 rounded-xl border border-emerald-700 text-xs font-semibold text-emerald-100 transition">30 Minutes</button>
+                <button onclick="setSleepTimer(45)" class="p-3 bg-emerald-950 hover:bg-emerald-800 rounded-xl border border-emerald-700 text-xs font-semibold text-emerald-100 transition">45 Minutes</button>
+                <button onclick="setSleepTimer(60)" class="p-3 bg-emerald-950 hover:bg-emerald-800 rounded-xl border border-emerald-700 text-xs font-semibold text-emerald-100 transition">60 Minutes</button>
+            </div>
+            <button onclick="setSleepTimer(0)" class="w-full py-2 bg-rose-950/60 hover:bg-rose-900 border border-rose-800 text-rose-200 text-xs rounded-xl font-medium transition">Turn Off Timer</button>
+        </div>
+    </div>
+
+    <!-- MAIN APP SCRIPT -->
+    <script>
+        /**
+         * TBR QURAN - Complete Quran Audio & Ambient Nature Platform Engine
+         * Built by Rayan Shaji (TBR TECHNOLOGIES)
+         */
+
+        // 1. RECITERS CONFIGURATION (30 Verified Quran Reciters)
+        const RECITERS = [
+            { id: 'afs', name: 'Mishary Rashid Alafasy', arabicName: 'مشاري بن راشد العفاسي', country: 'Kuwait', category: 'Popular', bio: 'Imam of Grand Mosque of Kuwait, worldwide recognized for emotional recitations.', audioServer: 'https://server8.mp3quran.net/afs/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=300&q=80' },
+            { id: 'sds', name: 'Abdul Rahman Al-Sudais', arabicName: 'عبد الرحمن السديس', country: 'Saudi Arabia', category: 'Saudi Arabia', bio: 'Chief Imam of Masjid al-Haram in Makkah.', audioServer: 'https://server11.mp3quran.net/sds/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1564121211835-e88c852648ab?auto=format&fit=crop&w=300&q=80' },
+            { id: 'shur', name: 'Saud Al-Shuraim', arabicName: 'سعود الشريم', country: 'Saudi Arabia', category: 'Saudi Arabia', bio: 'Former long-time Imam of Grand Mosque in Makkah.', audioServer: 'https://server7.mp3quran.net/shur/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=300&q=80' },
+            { id: 'maher', name: 'Maher Al-Muaiqly', arabicName: 'ماهر المعيقلي', country: 'Saudi Arabia', category: 'Saudi Arabia', bio: 'Renowned Imam of Masjid al-Haram in Makkah.', audioServer: 'https://server12.mp3quran.net/maher/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=300&q=80' },
+            { id: 'yasser', name: 'Yasser Al-Dossari', arabicName: 'ياسر الدوسري', country: 'Saudi Arabia', category: 'Popular', bio: 'Imam of Grand Mosque Makkah.', audioServer: 'https://server11.mp3quran.net/yasser/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=300&q=80' },
+            { id: 'basit', name: 'Abdul Basit Abdus Samad', arabicName: 'عبد الباسط عبد الصمد', country: 'Egypt', category: 'Classic', bio: 'Legendary Egyptian Qari, master of Murattal.', audioServer: 'https://server7.mp3quran.net/basit/Almusshaf-Al-Murattal/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80' },
+            { id: 'ajm', name: 'Ahmed Al-Ajmi', arabicName: 'أحمد بن علي العجمي', country: 'Saudi Arabia', category: 'Popular', bio: 'Saudi Qari known worldwide for smooth recitation.', audioServer: 'https://server10.mp3quran.net/ajm/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=300&q=80' },
+            { id: 'ghamdi', name: 'Saad Al-Ghamdi', arabicName: 'سعد الغامدي', country: 'Saudi Arabia', category: 'Popular', bio: 'Prominent Saudi Qari and former Imam.', audioServer: 'https://server7.mp3quran.net/s_gmd/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1564121211835-e88c852648ab?auto=format&fit=crop&w=300&q=80' },
+            { id: 'qtm', name: 'Nasser Al-Qatami', arabicName: 'ناصر القطامي', country: 'Saudi Arabia', category: 'Contemporary', bio: 'Leading Riyadh Imam and reciter.', audioServer: 'https://server6.mp3quran.net/qtm/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=300&q=80' },
+            { id: 'rifai', name: 'Hani Ar-Rifai', arabicName: 'هاني الرفاعي', country: 'Saudi Arabia', category: 'Contemporary', bio: 'Beloved for deeply moving recitations.', audioServer: 'https://server8.mp3quran.net/hafss/hani/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=300&q=80' },
+            { id: 'balila', name: 'Bandar Baleela', arabicName: 'بندر بليلة', country: 'Saudi Arabia', category: 'Saudi Arabia', bio: 'Imam and Khateeb of Masjid al-Haram in Makkah.', audioServer: 'https://server6.mp3quran.net/balila/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1564121211835-e88c852648ab?auto=format&fit=crop&w=300&q=80' },
+            { id: 'jhn', name: 'Abdullah Awad Al-Juhany', arabicName: 'عبد الله عواد الجهني', country: 'Saudi Arabia', category: 'Saudi Arabia', bio: 'Imam of Masjid al-Haram.', audioServer: 'https://server13.mp3quran.net/jhn/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=300&q=80' },
+            { id: 'jabr', name: 'Ali Jaber', arabicName: 'علي عبد الله جابر', country: 'Saudi Arabia', category: 'Classic', bio: 'Late legendary Imam of Masjid al-Haram.', audioServer: 'https://server11.mp3quran.net/a_jbr/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80' },
+            { id: 'jleel', name: 'Khalid Al-Jalil', arabicName: 'خالد الجليل', country: 'Saudi Arabia', category: 'Contemporary', bio: 'Imam of King Khalid Mosque in Riyadh.', audioServer: 'https://server10.mp3quran.net/jleel/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=300&q=80' },
+            { id: 'abkar', name: 'Idris Abkar', arabicName: 'إدريس أبكر', country: 'Saudi Arabia', category: 'Contemporary', bio: 'Imam of Sheikh Zayed Grand Mosque.', audioServer: 'https://server6.mp3quran.net/abkar/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=300&q=80' },
+            { id: 'nufais', name: 'Ahmed Al Nufais', arabicName: 'أحمد النفيس', country: 'Kuwait', category: 'Contemporary', bio: 'Modern Kuwaiti Qari.', audioServer: 'https://server11.mp3quran.net/nufais/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=300&q=80' },
+            { id: 'lhdan', name: 'Mohammed Al Luhaidan', arabicName: 'محمد اللحيدان', country: 'Saudi Arabia', category: 'Contemporary', bio: 'Judge and popular Imam in Riyadh.', audioServer: 'https://server8.mp3quran.net/lhdan/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=300&q=80' },
+            { id: 'salimi', name: 'Mansour Al Salimi', arabicName: 'منصور السالمي', country: 'Saudi Arabia', category: 'Contemporary', bio: 'Preacher and soft Quran reciter.', audioServer: 'https://server14.mp3quran.net/salimi/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80' },
+            { id: 'sobhi', name: 'Islam Sobhi', arabicName: 'إسلام صبحي', country: 'Egypt', category: 'Contemporary', bio: 'Young Egyptian reciter known for tranquil tone.', audioServer: 'https://server14.mp3quran.net/islam/Rwayat-Hafs-A-n-Asim/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1564121211835-e88c852648ab?auto=format&fit=crop&w=300&q=80' },
+            { id: 'arabi', name: 'Omar Hisham Al Arabi', arabicName: 'عمر هشام العربي', country: 'Egypt', category: 'Contemporary', bio: 'Popular Qari celebrated for cinematic style.', audioServer: 'https://server14.mp3quran.net/omar_arabi/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=300&q=80' },
+            { id: 'mustafa', name: 'Mustafa Ismail', arabicName: 'مصطفى إسماعيل', country: 'Egypt', category: 'Egypt', bio: 'Official royal reciter of Egypt.', audioServer: 'https://server8.mp3quran.net/mustafa/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80' },
+            { id: 'hussary', name: 'Mahmoud Khalil Al-Husary', arabicName: 'محمود خليل الحصري', country: 'Egypt', category: 'Egypt', bio: 'Gold standard master of Tajweed.', audioServer: 'https://server13.mp3quran.net/hussary/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=300&q=80' },
+            { id: 'minshawi', name: 'Muhammad Siddiq Al-Minshawi', arabicName: 'محمد صديق المنشاوي', country: 'Egypt', category: 'Egypt', bio: 'Emotional and revered Quranic voice.', audioServer: 'https://server10.mp3quran.net/minsh/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=300&q=80' },
+            { id: 'banna', name: 'Mahmoud Ali Al-Banna', arabicName: 'محمود علي البنا', country: 'Egypt', category: 'Egypt', bio: 'Founding member of Egyptian Reciters Syndicate.', audioServer: 'https://server8.mp3quran.net/banna/Almusshaf-Al-Murattal/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1564121211835-e88c852648ab?auto=format&fit=crop&w=300&q=80' },
+            { id: 'arkani', name: 'Abdul Wali Al-Arkani', arabicName: 'عبد الولي الأركاني', country: 'Saudi Arabia', category: 'Contemporary', bio: 'Unique resonant voice.', audioServer: 'https://server6.mp3quran.net/arkani/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=300&q=80' },
+            { id: 'bukhatir', name: 'Salah Bukhatir', arabicName: 'صلاح بو خاطر', country: 'UAE', category: 'Popular', bio: 'Emirati reciter with melodious tone.', audioServer: 'https://server8.mp3quran.net/bu_khtr/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=300&q=80' },
+            { id: 'abbad', name: 'Fares Abbad', arabicName: 'فارس عباد', country: 'Yemen', category: 'Popular', bio: 'Yemeni Qari broadcasting globally.', audioServer: 'https://server8.mp3quran.net/abba/Rwayat-Hafs-A-n-Asim/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=300&q=80' },
+            { id: 'qasim', name: 'Abdul Mohsen Al-Qasim', arabicName: 'عبد المحسن القاسم', country: 'Saudi Arabia', category: 'Saudi Arabia', bio: 'Imam of Al-Masjid an-Nabawi in Madinah.', audioServer: 'https://server8.mp3quran.net/qasm/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1564121211835-e88c852648ab?auto=format&fit=crop&w=300&q=80' },
+            { id: 'sayegh', name: 'Tawfeeq As-Sayegh', arabicName: 'توفيق الصايغ', country: 'Eritrea', category: 'Contemporary', bio: 'Renowned international reciter.', audioServer: 'https://server6.mp3quran.net/sygh/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80' },
+            { id: 'bsfr', name: 'Abdullah Basfar', arabicName: 'عبد الله بصفر', country: 'Saudi Arabia', category: 'Saudi Arabia', bio: 'Executive of World Quran organizations.', audioServer: 'https://server6.mp3quran.net/bsfr/', surahsAvailable: 114, img: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=300&q=80' }
+        ];
+
+        // 2. AMBIENT SOUNDS LIBRARY (Verified Audio Streams)
+        const AMBIENT_SOUNDS = [
+            // Rain
+            { id: 'rain_gentle', name: 'Gentle Rain', category: 'Rain', icon: 'fa-cloud-rain', url: 'https://assets.mixkit.co/active_storage/sfx/2518/2518-preview.mp3' },
+            { id: 'rain_heavy', name: 'Heavy Rain', category: 'Rain', icon: 'fa-cloud-showers-heavy', url: 'https://assets.mixkit.co/active_storage/sfx/1250/1250-preview.mp3' },
+            { id: 'rain_roof', name: 'Rain on Roof', category: 'Rain', icon: 'fa-house-chimney-window', url: 'https://assets.mixkit.co/active_storage/sfx/2520/2520-preview.mp3' },
+            { id: 'rain_forest', name: 'Rain in Forest', category: 'Rain', icon: 'fa-tree', url: 'https://assets.mixkit.co/active_storage/sfx/2524/2524-preview.mp3' },
+            
+            // Thunderstorm
+            { id: 'thunder_distant', name: 'Distant Thunder', category: 'Thunderstorm', icon: 'fa-bolt', url: 'https://assets.mixkit.co/active_storage/sfx/1271/1271-preview.mp3' },
+            { id: 'thunder_gentle', name: 'Gentle Thunderstorm', category: 'Thunderstorm', icon: 'fa-cloud-bolt', url: 'https://assets.mixkit.co/active_storage/sfx/2390/2390-preview.mp3' },
+            
+            // Wind
+            { id: 'wind_breeze', name: 'Gentle Breeze', category: 'Wind', icon: 'fa-wind', url: 'https://assets.mixkit.co/active_storage/sfx/2432/2432-preview.mp3' },
+            { id: 'wind_forest', name: 'Forest Wind', category: 'Wind', icon: 'fa-leaf', url: 'https://assets.mixkit.co/active_storage/sfx/2433/2433-preview.mp3' },
+
+            // Birds
+            { id: 'bird_morning', name: 'Morning Birds', category: 'Birds', icon: 'fa-dove', url: 'https://assets.mixkit.co/active_storage/sfx/2434/2434-preview.mp3' },
+            { id: 'bird_nightingale', name: 'Nightingale Song', category: 'Birds', icon: 'fa-feather', url: 'https://assets.mixkit.co/active_storage/sfx/2436/2436-preview.mp3' },
+
+            // Water
+            { id: 'water_ocean', name: 'Ocean Waves', category: 'Water', icon: 'fa-water', url: 'https://assets.mixkit.co/active_storage/sfx/2438/2438-preview.mp3' },
+            { id: 'water_river', name: 'Flowing River', category: 'Water', icon: 'fa-smog', url: 'https://assets.mixkit.co/active_storage/sfx/2439/2439-preview.mp3' },
+
+            // Forest & Nature
+            { id: 'forest_ambience', name: 'Forest Ambience', category: 'Forest', icon: 'fa-mountain-sun', url: 'https://assets.mixkit.co/active_storage/sfx/2440/2440-preview.mp3' },
+            { id: 'forest_leaves', name: 'Rustling Leaves', category: 'Forest', icon: 'fa-seedling', url: 'https://assets.mixkit.co/active_storage/sfx/2441/2441-preview.mp3' },
+
+            // Wildlife & Night
+            { id: 'wild_crickets', name: 'Night Crickets', category: 'Relaxing', icon: 'fa-moon', url: 'https://assets.mixkit.co/active_storage/sfx/2442/2442-preview.mp3' },
+            { id: 'fire_gentle', name: 'Gentle Fireplace', category: 'Relaxing', icon: 'fa-fire', url: 'https://assets.mixkit.co/active_storage/sfx/2443/2443-preview.mp3' }
+        ];
+
+        // 3. STATE MANAGEMENT
+        let surahsData = [];
+        let currentQari = RECITERS[0];
+        let currentSurahIndex = 0;
+        let isPlaying = false;
+        let isRepeat = false;
+        let isShuffle = false;
+        let sleepTimerTimeout = null;
+
+        // Ambient Audio State
+        let currentAmbientSound = null;
+        let isAmbientPlaying = false;
+        let ambientVolume = parseFloat(localStorage.getItem('tbr_ambient_vol') || '0.15');
+
+        // User Data LocalStorage
+        let favorites = JSON.parse(localStorage.getItem('tbr_favs') || '[]');
+        let playlists = JSON.parse(localStorage.getItem('tbr_playlists') || '[{"name":"Morning Recitations","surahs":[1,36,55,67]}]');
+
+        // Independent HTML5 Audio Channels
+        const quranAudio = new Audio();
+        const ambientAudio = new Audio();
+        ambientAudio.loop = true;
+
+        // 4. INITIALIZATION
+        window.addEventListener('DOMContentLoaded', async () => {
+            await fetchSurahsMetadata();
+            renderQarisHome();
+            renderQariLibrary();
+            renderHomePopular();
+            renderSurahLibrary();
+            renderFavourites();
+            renderPlaylists();
+            renderAmbientLibrary();
+            populateSettings();
+            setupAudioEvents();
+
+            // Set initial ambient slider
+            const ambSlider = document.getElementById('ambient-volume-slider');
+            if (ambSlider) {
+                ambSlider.value = ambientVolume;
+                document.getElementById('ambient-vol-percentage').innerText = `${Math.round(ambientVolume * 100)}%`;
+            }
+        });
+
+        // 5. METADATA FETCHING
+        async function fetchSurahsMetadata() {
+            try {
+                const res = await fetch('https://api.alquran.cloud/v1/surah');
+                const json = await res.json();
+                if (json.code === 200) {
+                    surahsData = json.data.map(s => ({
+                        number: s.number,
+                        name: s.name,
+                        englishName: s.englishName,
+                        englishTranslation: s.englishNameTranslation,
+                        numberOfAyahs: s.numberOfAyahs,
+                        revelationType: s.revelationType
+                    }));
+                }
+            } catch (err) {
+                console.error('Offline fallback for surah metadata', err);
+                surahsData = Array.from({length: 114}, (_, i) => ({
+                    number: i + 1,
+                    name: `سورة ${i + 1}`,
+                    englishName: `Surah ${i + 1}`,
+                    englishTranslation: "Quran Chapter",
+                    numberOfAyahs: 7,
+                    revelationType: i % 2 === 0 ? "Meccan" : "Medinan"
+                }));
+            }
+        }
+
+        // 6. QURAN AUDIO PLAYER
+        function getAudioUrl(qariObj, surahNum) {
+            const paddedNum = String(surahNum).padStart(3, '0');
+            return `${qariObj.audioServer}${paddedNum}.mp3`;
+        }
+
+        function playSurah(surahNumber) {
+            currentSurahIndex = surahNumber - 1;
+            const surah = surahsData[currentSurahIndex];
+            if (!surah) return;
+
+            const url = getAudioUrl(currentQari, surah.number);
+            quranAudio.src = url;
+            quranAudio.play().then(() => {
+                isPlaying = true;
+                updatePlayerUI();
+                updateMediaSession();
+            }).catch(err => {
+                console.warn('Quran audio play blocked:', err);
+                isPlaying = false;
+                updatePlayerUI();
+            });
+        }
+
+        function togglePlayPause() {
+            if (!quranAudio.src) {
+                playSurah(1);
+                return;
+            }
+            if (quranAudio.paused) {
+                quranAudio.play();
+                isPlaying = true;
+            } else {
+                quranAudio.pause();
+                isPlaying = false;
+            }
+            updatePlayerUI();
+        }
+
+        function playNextSurah() {
+            if (isShuffle) {
+                const randomIdx = Math.floor(Math.random() * surahsData.length);
+                playSurah(randomIdx + 1);
+            } else {
+                let nextIdx = (currentSurahIndex + 1) % surahsData.length;
+                playSurah(nextIdx + 1);
+            }
+        }
+
+        function playPrevSurah() {
+            let prevIdx = (currentSurahIndex - 1 + surahsData.length) % surahsData.length;
+            playSurah(prevIdx + 1);
+        }
+
+        function seekAudio(percent) {
+            if (quranAudio.duration) {
+                quranAudio.currentTime = (percent / 100) * quranAudio.duration;
+            }
+        }
+
+        function changeVolume(val) {
+            quranAudio.volume = val;
+        }
+
+        function selectQari(qariId) {
+            const found = RECITERS.find(r => r.id === qariId);
+            if (found) {
+                currentQari = found;
+                document.getElementById('home-active-qari-name').innerText = currentQari.name;
+                renderQarisHome();
+                renderQariLibrary();
+                
+                if (isPlaying) {
+                    playSurah(currentSurahIndex + 1);
+                } else {
+                    updatePlayerUI();
+                }
+            }
+        }
+
+        // 7. AMBIENT AUDIO PLAYER ENGINE
+        function selectAmbientSound(soundId) {
+            const snd = AMBIENT_SOUNDS.find(s => s.id === soundId);
+            if (!snd) return;
+
+            currentAmbientSound = snd;
+            ambientAudio.src = snd.url;
+            ambientAudio.volume = ambientVolume;
+
+            ambientAudio.play().then(() => {
+                isAmbientPlaying = true;
+                updateAmbientUI();
+            }).catch(err => console.warn('Ambient play blocked:', err));
+        }
+
+        function toggleAmbientPlay() {
+            if (!currentAmbientSound) {
+                selectAmbientSound('rain_gentle');
+                return;
+            }
+            if (ambientAudio.paused) {
+                ambientAudio.play();
+                isAmbientPlaying = true;
+            } else {
+                ambientAudio.pause();
+                isAmbientPlaying = false;
+            }
+            updateAmbientUI();
+        }
+
+        function stopAmbientSound() {
+            ambientAudio.pause();
+            ambientAudio.currentTime = 0;
+            isAmbientPlaying = false;
+            currentAmbientSound = null;
+            updateAmbientUI();
+        }
+
+        function changeAmbientVolume(val) {
+            ambientVolume = parseFloat(val);
+            ambientAudio.volume = ambientVolume;
+            localStorage.setItem('tbr_ambient_vol', ambientVolume);
+            document.getElementById('ambient-vol-percentage').innerText = `${Math.round(ambientVolume * 100)}%`;
+        }
+
+        function applyPreset(presetId) {
+            selectAmbientSound(presetId);
+        }
+
+        function updateAmbientUI() {
+            const masterBtn = document.getElementById('btn-ambient-master-toggle');
+            const titleEl = document.getElementById('ambient-active-title');
+            const homeAmbName = document.getElementById('home-active-ambient-name');
+            const homeAmbIcon = document.getElementById('home-ambient-icon');
+            const npAmbName = document.getElementById('np-ambient-name');
+            const dot = document.getElementById('ambient-active-dot');
+
+            if (currentAmbientSound && isAmbientPlaying) {
+                if (masterBtn) masterBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                if (titleEl) titleEl.innerText = `${currentAmbientSound.name} (${currentAmbientSound.category})`;
+                if (homeAmbName) homeAmbName.innerText = currentAmbientSound.name;
+                if (homeAmbIcon) homeAmbIcon.className = `fa-solid ${currentAmbientSound.icon}`;
+                if (npAmbName) npAmbName.innerText = `Ambience: ${currentAmbientSound.name}`;
+                if (dot) dot.classList.remove('hidden');
+            } else {
+                if (masterBtn) masterBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                if (titleEl) titleEl.innerText = currentAmbientSound ? `${currentAmbientSound.name} (Paused)` : 'None Selected';
+                if (homeAmbName) homeAmbName.innerText = 'Disabled';
+                if (npAmbName) npAmbName.innerText = 'Ambience: Off';
+                if (dot) dot.classList.add('hidden');
+            }
+
+            renderAmbientLibrary();
+        }
+
+        function renderAmbientLibrary() {
+            const grid = document.getElementById('ambient-sounds-grid');
+            if (!grid) return;
+
+            const searchQuery = (document.getElementById('ambient-search-input')?.value || '').toLowerCase();
+            const categoryFilter = document.getElementById('ambient-cat-filter')?.value || 'all';
+
+            let filtered = AMBIENT_SOUNDS.filter(s => {
+                const matchesName = s.name.toLowerCase().includes(searchQuery);
+                const matchesCat = categoryFilter === 'all' || s.category === categoryFilter;
+                return matchesName && matchesCat;
+            });
+
+            grid.innerHTML = '';
+            filtered.forEach(s => {
+                const isSelected = currentAmbientSound && currentAmbientSound.id === s.id;
+                const isPlayingThis = isSelected && isAmbientPlaying;
+
+                grid.innerHTML += `
+                    <div class="glass-panel p-4 rounded-2xl border ${isSelected ? 'border-gold-500 gold-glow' : 'border-emerald-800/60'} flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-950 border border-emerald-700 flex items-center justify-center text-gold-400 text-base">
+                                <i class="fa-solid ${s.icon}"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-amber-100 text-xs">${s.name}</h4>
+                                <span class="text-[10px] text-emerald-400">${s.category}</span>
+                            </div>
+                        </div>
+
+                        <button onclick="${isPlayingThis ? 'toggleAmbientPlay()' : `selectAmbientSound('${s.id}')`}" class="w-9 h-9 rounded-full ${isPlayingThis ? 'bg-gold-500 text-emerald-950' : 'bg-emerald-800 text-emerald-100'} hover:bg-gold-400 hover:text-emerald-950 flex items-center justify-center text-xs transition">
+                            <i class="fa-solid ${isPlayingThis ? 'fa-pause' : 'fa-play'}"></i>
+                        </button>
+                    </div>
+                `;
+            });
+        }
+
+        // 8. AUDIO EVENT LISTENERS & MEDIASESSION
+        function setupAudioEvents() {
+            quranAudio.addEventListener('timeupdate', () => {
+                if (!quranAudio.duration) return;
+                const progress = (quranAudio.currentTime / quranAudio.duration) * 100;
+                
+                document.getElementById('np-progress').value = progress;
+                document.getElementById('mini-progress').value = progress;
+                
+                document.getElementById('np-current-time').innerText = formatTime(quranAudio.currentTime);
+                document.getElementById('mini-curr-time').innerText = formatTime(quranAudio.currentTime);
+                document.getElementById('np-total-time').innerText = formatTime(quranAudio.duration);
+                document.getElementById('mini-total-time').innerText = formatTime(quranAudio.duration);
+            });
+
+            quranAudio.addEventListener('ended', () => {
+                if (isRepeat) {
+                    playSurah(currentSurahIndex + 1);
+                } else if (document.getElementById('setting-autoplay').checked) {
+                    playNextSurah();
+                } else {
+                    isPlaying = false;
+                    updatePlayerUI();
+                }
+            });
+        }
+
+        function updateMediaSession() {
+            if ('mediaSession' in navigator && surahsData[currentSurahIndex]) {
+                const surah = surahsData[currentSurahIndex];
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: `${surah.number}. ${surah.englishName} (${surah.name})`,
+                    artist: currentQari.name,
+                    album: 'TBR QURAN Audio Platform',
+                    artwork: [
+                        { src: currentQari.img, sizes: '300x300', type: 'image/jpeg' }
+                    ]
+                });
+
+                navigator.mediaSession.setActionHandler('play', () => { togglePlayPause(); });
+                navigator.mediaSession.setActionHandler('pause', () => { togglePlayPause(); });
+                navigator.mediaSession.setActionHandler('previoustrack', () => { playPrevSurah(); });
+                navigator.mediaSession.setActionHandler('nexttrack', () => { playNextSurah(); });
+            }
+        }
+
+        // 9. UI RENDER FUNCTIONS
+        function updatePlayerUI() {
+            const surah = surahsData[currentSurahIndex] || { number: 1, name: "الفاتحة", englishName: "Al-Fatihah", englishTranslation: "The Opening", revelationType: "Meccan", numberOfAyahs: 7 };
+            
+            document.getElementById('np-arabic-name').innerText = surah.name;
+            document.getElementById('np-english-name').innerText = `${surah.number}. ${surah.englishName}`;
+            document.getElementById('np-english-meaning').innerText = `"${surah.englishTranslation}"`;
+            document.getElementById('np-qari-name').innerText = currentQari.name;
+            document.getElementById('np-qari-img').src = currentQari.img;
+            document.getElementById('np-revelation-badge').innerText = `${surah.revelationType} • ${surah.numberOfAyahs} Verses`;
+
+            document.getElementById('mini-surah-title').innerText = surah.englishName;
+            document.getElementById('mini-surah-num').innerText = `#${surah.number}`;
+            document.getElementById('mini-qari-name').innerText = currentQari.name;
+            document.getElementById('mini-qari-img').src = currentQari.img;
+
+            const playIcons = [
+                document.getElementById('np-btn-play'),
+                document.getElementById('mini-btn-play'),
+                document.getElementById('mini-btn-play-mobile')
+            ];
+
+            playIcons.forEach(btn => {
+                if (btn) {
+                    btn.innerHTML = isPlaying ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play me-0.5"></i>';
+                }
+            });
+
+            const favBtn = document.getElementById('np-btn-fav');
+            if (favBtn) {
+                const isFav = favorites.includes(surah.number);
+                favBtn.innerHTML = isFav 
+                    ? '<i class="fa-solid fa-heart text-rose-500 text-base"></i> Favorited'
+                    : '<i class="fa-regular fa-heart text-base"></i> Favorite';
+            }
+        }
+
+        function renderQarisHome() {
+            const homeGrid = document.getElementById('home-qaris-grid');
+            if (!homeGrid) return;
+            homeGrid.innerHTML = '';
+
+            RECITERS.slice(0, 6).forEach(q => {
+                const isSelected = q.id === currentQari.id;
+                homeGrid.innerHTML += `
+                    <div onclick="selectQari('${q.id}')" class="p-3 rounded-xl bg-emerald-900/40 border ${isSelected ? 'border-gold-500 bg-emerald-850 gold-glow' : 'border-emerald-800/60'} hover:border-gold-500/50 cursor-pointer transition text-center space-y-2">
+                        <div class="w-12 h-12 mx-auto rounded-full overflow-hidden border-2 border-gold-500/30">
+                            <img src="${q.img}" alt="${q.name}" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-bold text-amber-100 text-xs truncate">${q.name}</h4>
+                        <span class="text-[10px] ${isSelected ? 'text-gold-400 font-semibold' : 'text-emerald-400'} block truncate">
+                            ${isSelected ? 'Active' : q.country}
+                        </span>
+                    </div>
+                `;
+            });
+        }
+
+        function renderQariLibrary() {
+            const fullList = document.getElementById('qaris-full-list');
+            if (!fullList) return;
+
+            const searchQuery = (document.getElementById('qari-search-input')?.value || '').toLowerCase();
+            const categoryFilter = document.getElementById('qari-category-filter')?.value || 'all';
+
+            let filtered = RECITERS.filter(q => {
+                const matchesName = q.name.toLowerCase().includes(searchQuery) || q.arabicName.includes(searchQuery);
+                const matchesCat = categoryFilter === 'all' || q.category === categoryFilter || q.country === categoryFilter;
+                return matchesName && matchesCat;
+            });
+
+            fullList.innerHTML = '';
+            filtered.forEach(q => {
+                const isSelected = q.id === currentQari.id;
+                fullList.innerHTML += `
+                    <div class="glass-panel p-5 rounded-2xl border ${isSelected ? 'border-gold-500 gold-glow' : 'border-emerald-800/60'} flex flex-col justify-between gap-4">
+                        <div class="flex items-start gap-4">
+                            <img src="${q.img}" class="w-16 h-16 rounded-2xl object-cover border border-gold-500/30 shrink-0">
+                            <div class="min-w-0 flex-1">
+                                <div class="flex items-center justify-between gap-2">
+                                    <h3 class="font-bold text-amber-100 text-base truncate">${q.name}</h3>
+                                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-gold-500/10 text-gold-400 border border-gold-500/20 font-semibold shrink-0">${q.country}</span>
+                                </div>
+                                <p class="text-xs font-arabic text-gold-400">${q.arabicName}</p>
+                                <p class="text-xs text-emerald-300/70 line-clamp-2 mt-1">${q.bio}</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-2 border-t border-emerald-800/40 text-xs">
+                            <span class="text-emerald-400/80"><i class="fa-solid fa-circle-check text-gold-400 mr-1"></i> ${q.surahsAvailable} Surahs Available</span>
+                            <button onclick="selectQari('${q.id}')" class="px-4 py-1.5 rounded-xl text-xs font-bold transition ${isSelected ? 'bg-gold-500 text-emerald-950 shadow' : 'bg-emerald-800 hover:bg-emerald-700 text-emerald-100'}">
+                                ${isSelected ? 'Active Qari' : 'Select'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderHomePopular() {
+            const popularIndices = [0, 35, 54, 66, 111, 113];
+            const container = document.getElementById('home-popular-surahs');
+            if (!container) return;
+            container.innerHTML = '';
+
+            popularIndices.forEach(idx => {
+                const s = surahsData[idx] || { number: idx+1, name: `سورة ${idx+1}`, englishName: `Surah ${idx+1}`, numberOfAyahs: 7 };
+                container.innerHTML += `
+                    <div onclick="playSurah(${s.number})" class="p-3.5 rounded-xl bg-emerald-900/50 border border-emerald-800/60 hover:border-gold-500/40 cursor-pointer flex items-center justify-between transition group">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-emerald-950 border border-emerald-700 flex items-center justify-center text-xs font-bold text-gold-400">${s.number}</span>
+                            <div>
+                                <h4 class="font-bold text-amber-100 text-sm group-hover:text-gold-400 transition">${s.englishName}</h4>
+                                <p class="text-xs text-emerald-300/60">${s.numberOfAyahs} Verses</p>
+                            </div>
+                        </div>
+                        <span class="font-arabic text-lg text-emerald-200">${s.name}</span>
+                    </div>
+                `;
+            });
+        }
+
+        function renderSurahLibrary() {
+            const container = document.getElementById('library-surahs-list');
+            if (!container) return;
+            container.innerHTML = '';
+
+            surahsData.forEach(s => {
+                container.innerHTML += `
+                    <div onclick="playSurah(${s.number})" class="p-4 hover:bg-emerald-900/40 transition flex items-center justify-between gap-4 cursor-pointer">
+                        <div class="flex items-center gap-4">
+                            <span class="w-9 h-9 rounded-xl bg-emerald-900 border border-emerald-700/60 flex items-center justify-center text-xs font-bold text-gold-400">${s.number}</span>
+                            <div>
+                                <h4 class="font-bold text-amber-100 text-sm md:text-base">${s.englishName} <span class="text-xs font-normal text-emerald-300/70">(${s.englishTranslation})</span></h4>
+                                <p class="text-xs text-emerald-400/80">${s.revelationType} • ${s.numberOfAyahs} Verses</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="font-arabic text-xl text-gold-400">${s.name}</span>
+                            <button onclick="event.stopPropagation(); toggleFav(${s.number})" class="text-emerald-400 hover:text-rose-400 p-2">
+                                <i class="${favorites.includes(s.number) ? 'fa-solid fa-heart text-rose-500' : 'fa-regular fa-heart'}"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderFavourites() {
+            const container = document.getElementById('favourites-list');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (favorites.length === 0) {
+                container.innerHTML = '<p class="text-sm text-emerald-300/60 italic py-8 text-center">No favorite Surahs added yet.</p>';
+                return;
+            }
+
+            favorites.forEach(num => {
+                const s = surahsData[num - 1];
+                if (!s) return;
+                container.innerHTML += `
+                    <div onclick="playSurah(${s.number})" class="p-4 rounded-xl bg-emerald-900/40 border border-emerald-800/60 hover:border-gold-500/40 flex items-center justify-between cursor-pointer transition">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-emerald-950 text-gold-400 text-xs font-bold flex items-center justify-center border border-emerald-700">${s.number}</span>
+                            <div>
+                                <h4 class="font-bold text-amber-100 text-sm">${s.englishName}</h4>
+                                <p class="text-xs text-emerald-300/60">${s.numberOfAyahs} Verses</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="font-arabic text-lg text-emerald-200">${s.name}</span>
+                            <button onclick="event.stopPropagation(); toggleFav(${s.number})" class="text-rose-400 hover:text-rose-300 text-sm p-1">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderPlaylists() {
+            const container = document.getElementById('playlists-grid');
+            if (!container) return;
+            container.innerHTML = '';
+
+            playlists.forEach((pl, idx) => {
+                container.innerHTML += `
+                    <div class="glass-panel p-5 rounded-2xl border border-emerald-800/60 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-amber-100 text-base font-serif">${pl.name}</h3>
+                            <span class="text-xs text-gold-400 px-2 py-0.5 rounded bg-gold-500/10 border border-gold-500/20">${pl.surahs.length} Surahs</span>
+                        </div>
+                        <p class="text-xs text-emerald-300/70">Custom listening sequence</p>
+                        <div class="flex items-center gap-2 pt-2">
+                            <button onclick="playPlaylist(${idx})" class="flex-1 py-2 bg-gold-500 hover:bg-gold-400 text-emerald-950 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 shadow">
+                                <i class="fa-solid fa-play"></i> Play Playlist
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function populateSettings() {
+            const select = document.getElementById('settings-qari-select');
+            if (!select) return;
+            select.innerHTML = '';
+            RECITERS.forEach(q => {
+                select.innerHTML += `<option value="${q.id}" ${q.id === currentQari.id ? 'selected' : ''}>${q.name}</option>`;
+            });
+        }
+
+        // 10. NAVIGATION & HANDLERS
+        function navTo(sectionId) {
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.add('hidden'));
+            const target = document.getElementById(`sec-${sectionId}`);
+            if (target) target.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('text-gold-400'));
+            document.querySelectorAll('.nav-btn-desk').forEach(btn => btn.classList.remove('text-gold-400'));
+
+            const activeNav = document.getElementById(`nav-${sectionId}`);
+            if (activeNav) activeNav.classList.add('text-gold-400');
+
+            const activeDeskNav = document.getElementById(`dnav-${sectionId}`);
+            if (activeDeskNav) activeDeskNav.classList.add('text-gold-400');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleGlobalSearch(query) {
+            const dropdown = document.getElementById('search-dropdown');
+            if (!query.trim()) {
+                dropdown.classList.add('hidden');
+                return;
+            }
+
+            const q = query.toLowerCase();
+            const results = surahsData.filter(s => 
+                s.englishName.toLowerCase().includes(q) || 
+                s.number.toString() === q ||
+                s.name.includes(q)
+            ).slice(0, 5);
+
+            dropdown.innerHTML = '';
+            if (results.length === 0) {
+                dropdown.innerHTML = '<div class="p-3 text-xs text-emerald-400">No matching Surahs found</div>';
+            } else {
+                results.forEach(s => {
+                    dropdown.innerHTML += `
+                        <div onclick="playSurah(${s.number}); document.getElementById('search-dropdown').classList.add('hidden');" class="p-3 hover:bg-emerald-800/60 cursor-pointer flex justify-between items-center text-xs">
+                            <span class="font-semibold text-amber-100">${s.number}. ${s.englishName}</span>
+                            <span class="font-arabic text-gold-400">${s.name}</span>
+                        </div>
+                    `;
+                });
+            }
+            dropdown.classList.remove('hidden');
+        }
+
+        function filterSurahList() {
+            const revFilter = document.getElementById('revelation-filter').value;
+            const sortOrder = document.getElementById('sort-order').value;
+
+            let filtered = [...surahsData];
+
+            if (revFilter !== 'all') {
+                filtered = filtered.filter(s => s.revelationType === revFilter);
+            }
+
+            if (sortOrder === 'desc') {
+                filtered.sort((a, b) => b.number - a.number);
+            } else if (sortOrder === 'name') {
+                filtered.sort((a, b) => a.englishName.localeCompare(b.englishName));
+            } else {
+                filtered.sort((a, b) => a.number - b.number);
+            }
+
+            const container = document.getElementById('library-surahs-list');
+            container.innerHTML = '';
+            filtered.forEach(s => {
+                container.innerHTML += `
+                    <div onclick="playSurah(${s.number})" class="p-4 hover:bg-emerald-900/40 transition flex items-center justify-between gap-4 cursor-pointer">
+                        <div class="flex items-center gap-4">
+                            <span class="w-9 h-9 rounded-xl bg-emerald-900 border border-emerald-700/60 flex items-center justify-center text-xs font-bold text-gold-400">${s.number}</span>
+                            <div>
+                                <h4 class="font-bold text-amber-100 text-sm md:text-base">${s.englishName} <span class="text-xs font-normal text-emerald-300/70">(${s.englishTranslation})</span></h4>
+                                <p class="text-xs text-emerald-400/80">${s.revelationType} • ${s.numberOfAyahs} Verses</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="font-arabic text-xl text-gold-400">${s.name}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function toggleFav(surahNum) {
+            if (favorites.includes(surahNum)) {
+                favorites = favorites.filter(n => n !== surahNum);
+            } else {
+                favorites.push(surahNum);
+            }
+            localStorage.setItem('tbr_favs', JSON.stringify(favorites));
+            renderSurahLibrary();
+            renderFavourites();
+            updatePlayerUI();
+        }
+
+        function toggleCurrentFavourite() {
+            toggleFav(currentSurahIndex + 1);
+        }
+
+        function toggleShuffle() {
+            isShuffle = !isShuffle;
+            const btn = document.getElementById('np-btn-shuffle');
+            btn.classList.toggle('text-gold-400', isShuffle);
+            btn.classList.toggle('text-emerald-400', !isShuffle);
+        }
+
+        function toggleRepeat() {
+            isRepeat = !isRepeat;
+            const btn = document.getElementById('np-btn-repeat');
+            btn.classList.toggle('text-gold-400', isRepeat);
+            btn.classList.toggle('text-emerald-400', !isRepeat);
+        }
+
+        function changePlaybackSpeed(val) {
+            quranAudio.playbackRate = parseFloat(val);
+        }
+
+        function changeDefaultQari(qariId) {
+            selectQari(qariId);
+        }
+
+        function openSleepTimerModal() {
+            document.getElementById('modal-sleep-timer').classList.remove('hidden');
+        }
+
+        function closeSleepTimerModal() {
+            document.getElementById('modal-sleep-timer').classList.add('hidden');
+        }
+
+        function setSleepTimer(minutes) {
+            if (sleepTimerTimeout) clearTimeout(sleepTimerTimeout);
+            const badge = document.getElementById('sleep-badge');
+
+            if (minutes === 0) {
+                badge.classList.add('hidden');
+                closeSleepTimerModal();
+                return;
+            }
+
+            badge.classList.remove('hidden');
+            closeSleepTimerModal();
+
+            sleepTimerTimeout = setTimeout(() => {
+                quranAudio.pause();
+                ambientAudio.pause();
+                isPlaying = false;
+                isAmbientPlaying = false;
+                updatePlayerUI();
+                updateAmbientUI();
+                badge.classList.add('hidden');
+            }, minutes * 60 * 1000);
+        }
+
+        function createPlaylistPrompt() {
+            const name = prompt("Enter new Playlist Name:");
+            if (name && name.trim()) {
+                playlists.push({ name: name.trim(), surahs: [1] });
+                localStorage.setItem('tbr_playlists', JSON.stringify(playlists));
+                renderPlaylists();
+            }
+        }
+
+        function playPlaylist(idx) {
+            const pl = playlists[idx];
+            if (pl && pl.surahs.length > 0) {
+                playSurah(pl.surahs[0]);
+            }
+        }
+
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '00:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>
+```
